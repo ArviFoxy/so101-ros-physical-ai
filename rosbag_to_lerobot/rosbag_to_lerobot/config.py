@@ -23,7 +23,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 
 import yaml
 
@@ -59,6 +59,14 @@ class Config:
     task: str
     default_max_age_s: float = 0.2
     features: List[FeatureSpec] = field(default_factory=list)
+
+    # Optional free-form joint-convention tag, merged into the exported
+    # dataset's meta info. Joint angles pass through this pipeline RAW (no
+    # per-joint flip/offset), so datasets are only valid for the convention
+    # they were recorded under (e.g. flam's wrist_roll zero is ~180 deg from
+    # stock SO-101 — see flam/docs/joint_conventions.md). Tagging makes
+    # mixed-convention training data detectable downstream.
+    convention: Optional[Dict[str, Any]] = None
 
     def by_topic(self) -> Dict[str, FeatureSpec]:
         return {f.topic: f for f in self.features}
@@ -136,6 +144,7 @@ def load_config(path: str | Path) -> Config:
         task=raw["task"],
         default_max_age_s=raw.get("default_max_age_s", 0.2),
         features=features,
+        convention=raw.get("convention"),
     )
     cfg.validate()
     return cfg

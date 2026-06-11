@@ -6,6 +6,14 @@ reference_topic: "/follower/forward_controller/commands"
 
 # Writtent to every frame
 task: "Pick and Place"
+
+# Merged into the dataset meta info: which joint-angle convention the episodes
+# were recorded under (angles pass through raw — no per-joint flip/offset).
+# Override when exporting from a modified arm (e.g. flam: joint_frame flam_v2,
+# wrist_roll homing_offset 1804; see flam/docs/joint_conventions.md).
+convention:
+  joint_frame: "so101_stock"
+  units: "radians"
 # Default freshness window (seconds) if a feature doesn't override it
 default_max_age_s: 0.1
 

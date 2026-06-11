@@ -364,6 +364,23 @@ def convert_all_bags(
         video_backend=vcodec,
     )
 
+    # 3b. Tag the dataset with the joint-convention metadata (if configured).
+    # Joint angles pass through this pipeline raw, so consumers can only tell
+    # which convention (e.g. flam's rotated wrist_roll zero vs stock SO-101)
+    # an episode set was recorded under from this tag.
+    if cfg.convention:
+        dataset.meta.info["joint_convention"] = dict(cfg.convention)
+        try:
+            from lerobot.datasets.utils import write_info
+
+            write_info(dataset.meta.info, dataset.meta.root)
+        except ImportError:  # lerobot layout changed: write info.json directly
+            import json
+
+            info_path = Path(dataset.meta.root) / "meta" / "info.json"
+            info_path.write_text(json.dumps(dataset.meta.info, indent=4))
+        logger.info("Tagged dataset meta with joint_convention=%s", cfg.convention)
+
     # 4. Convert each episode
     total_frames = 0
     total_dropped = 0

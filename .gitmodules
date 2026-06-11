@@ -1,4 +1,4 @@
 [submodule "feetech_ros2_driver"]
 	path = feetech_ros2_driver
 	url = https://github.com/ArviFoxy/feetech_ros2_driver.git
-	branch = flam-local
+	branch = main

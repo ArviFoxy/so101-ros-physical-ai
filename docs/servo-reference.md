@@ -9,11 +9,17 @@
 
 ## 1. Which servo is this?
 
-**Feetech STS3215, 7.4 V "19 KG·CM" variant** — a plastic-shell, metal-gear, magnetic-encoder,
-dual-axis, TTL serial bus smart servo. This is the motor Waveshare ships in its SO-101 kit and
-is the standard LeRobot SO-101 actuator. The "~7 V" detail in the request matches: the SO-101
-variant is the **7.4 V** model, *not* the 12 V `STS3215` variant (the 12 V part is a different
-SKU with ~30 kg·cm stall — do not confuse spec sheets).
+**CORRECTION (2026-06-12, confirmed on the real arm): the flam follower is the 12 V
+"30 KG·CM" STS3215 variant**, not the 7.4 V one this page originally assumed. The arm is
+a Waveshare **SO-ARM101** follower kit ("sub robotic arm uses bus servos rated at
+30 kg·cm @ 12 V"); the bus honestly reported 12.0–12.2 V on its stock 12 V PSU. The
+7.4 V/19 kg·cm description below is the LEADER-arm/SO-ARM100-class variant — register
+map and protocol are identical, but electrical/torque numbers in §2 are from the 7.4 V
+sheet and do NOT apply to the follower's motors (12 V stall ~30 kg·cm; driver voltage
+warn window now [9.0, 13.0]).
+
+Original (7.4 V variant) description: a plastic-shell, metal-gear, magnetic-encoder,
+dual-axis, TTL serial bus smart servo — the standard LeRobot SO-101 LEADER actuator.
 
 ### Evidence
 
